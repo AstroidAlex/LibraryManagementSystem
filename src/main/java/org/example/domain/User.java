@@ -15,7 +15,7 @@ public abstract class User {
     protected final List<Item> borrowedItems;
 
     private static int nextId = 1;
-    public User(List<Item> borrowedItems, String name, String id) {
+    public User(List<Item> borrowedItems, String name) {
         this.id = String.format("%04d", nextId++); //TODO: adapt for different user types
         this.borrowedItems = borrowedItems;
         this.name = name;
@@ -36,5 +36,7 @@ public abstract class User {
         return borrowedItems.contains(item);
     }
 
-    abstract void registerBorrowedItem(Item item); //TODO: update after CSV
+    void registerBorrowedItem(Item item) {
+        //TODO: update after CSV
+    }
 }

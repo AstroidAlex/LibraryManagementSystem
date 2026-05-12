@@ -1,4 +1,17 @@
 package org.example.domain;
 
-public class Student {
+import java.util.List;
+
+public class Student extends User{
+    public Student(List<Item> borrowedItems, String name) {
+        super(borrowedItems, name);
+    }
+    @Override
+    public int getBorrowingLimit() {
+        return 5;
+    }
+    @Override
+    public boolean canBorrow(Item item) {
+        return item instanceof Book;
+    }
 }
