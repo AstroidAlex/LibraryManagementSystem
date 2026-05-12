@@ -2,13 +2,15 @@ package org.example.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public abstract class Item {
-    private final String id;
-    private String title;
-    private ItemStatus status;
+    protected final String id;
+    protected String title;
+    protected ItemStatus status;
 
     private static int nextId = 1;
 
