@@ -27,11 +27,22 @@ public class Library {
 
     public void borrowItem(String userId, String itemId) {
         User user = users.get(userId);
-        Item item = items.get(itemId);
+        Item item = null; //temp
+        for (Item it : items) { //bypasses the need to set items to map. Other methods need items as a list
+            if (it.getId().equals(itemId)) {
+                item = it;
+                break;
+            }
+        }
         String type = item instanceof Book ? "Book" : item instanceof DVD ? "DVD" : "Magazine";
         if (!user.canBorrow(item)) {
             throw new IllegalArgumentException(
                     String.format("%s cannot borrow %s items", user.getClass().getSimpleName(), type));
+        }
+        if (user.borrowedItems.size() > user.getBorrowingLimit()) {
+            throw new IllegalArgumentException(
+                    String.format("%s cannot borrow more than %d items",
+                            user.getClass().getSimpleName(), user.getBorrowingLimit()));
         }
     }
     public void returnItem(String userID, String itemId) {
@@ -44,9 +55,9 @@ public class Library {
         String target = title.trim().toLowerCase();
         List<Item> items = getItems();
         if (items == null) return results;
-        for (Item it : items) {
-            if (it == null || it.getTitle() == null) continue;
-            if (it.getTitle().trim().toLowerCase().equals(target)) results.add(it);
+        for (Item item : items) {
+            if (item == null || item.getTitle() == null) continue;
+            if (item.getTitle().trim().toLowerCase().equals(target)) results.add(item);
         }
         return results; //TODO: NO DUPLICATES
     }
