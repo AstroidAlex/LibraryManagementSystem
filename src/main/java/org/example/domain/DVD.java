@@ -9,8 +9,8 @@ public class DVD extends Item{
     private final String director;
     private final int duration;
 
-    public DVD(String title, ItemStatus status, String director, int duration) {
-        super(title, status);
+    public DVD(String title, ItemStatus status, String author, String director, int duration) {
+        super(title, status, author);
         this.director = director;
         this.duration = duration;
     }

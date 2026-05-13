@@ -1,14 +1,13 @@
 package org.example.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public abstract class Item {
-    protected final String id;
+    protected String id;
     protected String title;
     protected ItemStatus status;
     protected String author;
@@ -24,16 +23,23 @@ public abstract class Item {
 
     public void returnItem() {
         status = ItemStatus.AVAILABLE;
-    }
+    } //exceptions in library
     public void markLost() {
         status = ItemStatus.LOST;
-    }
+    } //exceptions in library
 
     /**
      * can be used when adding new items
      */
     public boolean isAvailable() {
         return status == ItemStatus.AVAILABLE;
+    }
+
+    public void borrow() {
+        if (status != ItemStatus.AVAILABLE) {
+            throw new IllegalStateException("Item is not available. Status: " + status);
+        }
+        status = ItemStatus.BORROWED;
     }
 
     public enum ItemStatus {

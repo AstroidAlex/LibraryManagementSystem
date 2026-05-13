@@ -25,11 +25,11 @@ public abstract class User {
     public abstract boolean canBorrow(Item item);
 
     public void borrowItem(Item item) {
-        //TODO: Once exceptions are added
+        //TODO: soon
     }
 
     public void returnItem(Item item) {
-        //TODO: Once exceptions are added
+        //TODO: soon
     }
 
     public boolean hasBorrowed(Item item) {

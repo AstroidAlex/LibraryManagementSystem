@@ -26,7 +26,13 @@ public class Library {
     }
 
     public void borrowItem(String userId, String itemId) {
-        //TODO: Update borrow and return once exceptions exist
+        User user = users.get(userId);
+        Item item = items.get(itemId);
+        String type = item instanceof Book ? "Book" : item instanceof DVD ? "DVD" : "Magazine";
+        if (!user.canBorrow(item)) {
+            throw new IllegalArgumentException(
+                    String.format("%s cannot borrow %s items", user.getClass().getSimpleName(), type));
+        }
     }
     public void returnItem(String userID, String itemId) {
         //update after
