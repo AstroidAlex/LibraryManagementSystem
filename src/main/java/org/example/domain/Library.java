@@ -25,6 +25,8 @@ public class Library {
         users.put(user.getId(), user);
     }
 
+    public void removeUser(String userId) { users.remove(userId); }
+
     public void borrowItem(String userId, String itemId) {
         User user = users.get(userId);
         Item item = null; //temp
@@ -45,8 +47,17 @@ public class Library {
                             user.getClass().getSimpleName(), user.getBorrowingLimit()));
         }
     }
-    public void returnItem(String userID, String itemId) {
-        //update after
+
+    public void returnItem(String userId, String itemId) {
+        User user = users.get(userId);
+        Item item = null; //temp
+        for (Item it : items) { //bypasses the need to set items to map. Other methods need items as a list
+            if (it.getId().equals(itemId)) {
+                item = it;
+                break;
+            }
+        }
+        user.returnItem(item); //TODO: report compatibility
     }
 
     public List<Item> searchByTitleRecursive(String title) {
@@ -76,21 +87,6 @@ public class Library {
                                 // map doesn't work without it
                                 -> existing, LinkedHashMap::new));
 
-        return new ArrayList<>(map.values());
-    }
-    public List<Item> findAllByAuthor(String author) {
-        if (author == null) return Collections.emptyList();
-        String a = author.trim().toLowerCase(); //all lowercase
-        List<Item> items = getItems();
-        if (items == null) return Collections.emptyList();
-        Map<Object, Item> map = items.stream()
-                .filter(Objects::nonNull)
-                .filter(item -> {
-                    String itemAuthor = item.getAuthor();
-                    return itemAuthor != null && itemAuthor.trim().toLowerCase().equals(a);})
-                .collect(Collectors.toMap(
-                        Item::getId, item -> item, (existing, replacement) -> existing,
-                        LinkedHashMap::new));
         return new ArrayList<>(map.values());
     }
 
