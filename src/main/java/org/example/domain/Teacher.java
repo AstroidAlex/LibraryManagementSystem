@@ -5,6 +5,7 @@ import java.util.List;
 public class Teacher extends User{
     public Teacher(List<Item> borrowedItems, String name) {
         super(borrowedItems, name);
+        setId(String.format("T%4s", getId()));
     }
 
     @Override

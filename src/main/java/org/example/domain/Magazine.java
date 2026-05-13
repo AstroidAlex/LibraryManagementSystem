@@ -13,5 +13,6 @@ public class Magazine extends Item{
         super(title, status, author);
         this.issueNumber = issueNumber;
         this.publisher = publisher;
+        setId(String.format("M%4s", getId()));
     }
 }

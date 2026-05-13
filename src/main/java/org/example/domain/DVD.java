@@ -13,5 +13,6 @@ public class DVD extends Item{
         super(title, status, author);
         this.director = director;
         this.duration = duration;
+        setId(String.format("D%4s", getId()));
     }
 }

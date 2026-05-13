@@ -8,6 +8,7 @@ public class Admin extends User{
     public Admin(List<Item> borrowedItems, String name, Library library) {
         super(borrowedItems, name);
         this.library = library;
+        setId(String.format("A%4s", getId()));
     }
 
     @Override

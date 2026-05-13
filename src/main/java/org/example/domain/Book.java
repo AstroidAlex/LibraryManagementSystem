@@ -13,5 +13,6 @@ public class Book extends Item{
         super(title, status, author);
         this.isbn = isbn; //TODO: invalid isbn validation
         this.genre = genre;
+        setId(String.format("B%4s", getId()));
     }
 }

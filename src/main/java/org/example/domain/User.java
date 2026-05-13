@@ -2,6 +2,7 @@ package org.example.domain;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 @Getter
 @EqualsAndHashCode
 @ToString
+@Setter
 public abstract class User {
     protected String id;
     protected String name;
@@ -16,7 +18,7 @@ public abstract class User {
 
     private static int nextId = 1;
     public User(List<Item> borrowedItems, String name) {
-        this.id = String.format("%04d", nextId++); //TODO: adapt for different user types
+        this.id = String.format("%04d", nextId++); //count is located here, prefix attributed in each class
         this.borrowedItems = borrowedItems;
         this.name = name;
     }

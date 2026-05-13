@@ -101,4 +101,38 @@ public class Library {
         return new ArrayList<>(map.values());
     }
 
+    public List<Item> itemsSorted(Comparator<Item> comparator) {
+        items.sort(comparator);
+        return items;
+    }
+
+    public List<User> usersSorted(Comparator<User> comparator) {
+        List<User> sorted = new ArrayList<>(users.values());
+        sorted.sort(comparator);
+        return sorted;
+    }
+
+
+    public String generateReport(User user) {
+        if (!(user instanceof Admin)) {
+            return null;
+        }
+        long available = countByStatus(Item.ItemStatus.AVAILABLE);
+        long borrowed = countByStatus(Item.ItemStatus.BORROWED);
+        long lost = countByStatus(Item.ItemStatus.LOST);
+
+         return String.format("Total Items:    %d%n", items.size()) +
+                String.format("Available:      %d%n", available) +
+                String.format("Borrowed:       %d%n", borrowed) +
+                String.format("Lost:           %d%n", lost) +
+                String.format("Unique Genres:  %d%n", genres.size()) +
+                String.format("Total Users:    %d%n", users.size());
+
+    }
+
+    private long countByStatus(Item.ItemStatus status) {
+        return items.stream()
+                .filter(item -> item.getStatus() == status)
+                .count();
+    }
 }
