@@ -42,7 +42,7 @@ public class Library {
             if (it == null || it.getTitle() == null) continue;
             if (it.getTitle().trim().toLowerCase().equals(target)) results.add(it);
         }
-        return results;
+        return results; //TODO: NO DUPLICATES
     }
 
     public List<Item> findAllByTitleStream(String title) {
@@ -50,11 +50,16 @@ public class Library {
         String target = title.trim().toLowerCase();
         List<Item> items = getItems();
         if (items == null) return Collections.emptyList();
-        return items.stream()
-                .filter(Objects::nonNull)
-                .filter(i -> i.getTitle() != null)
-                .filter(i -> i.getTitle().trim().toLowerCase().equals(target))
-                .collect(Collectors.toList());
+        Map<Object, Item> map = items.stream().filter(Objects::nonNull)
+                .filter(item -> {
+                    String itemTitle = item.getTitle();
+                    return itemTitle != null && itemTitle.trim().toLowerCase().equals(target);})
+                .collect(Collectors.toMap(
+                        Item::getId, item -> item, (existing, replacement) //although unused,
+                                // map doesn't work without it
+                                -> existing, LinkedHashMap::new));
+
+        return new ArrayList<>(map.values());
     }
     public List<Item> findAllByAuthor(String author) {
         if (author == null) return Collections.emptyList();
@@ -71,4 +76,16 @@ public class Library {
                         LinkedHashMap::new));
         return new ArrayList<>(map.values());
     }
+
+    public List<Book> searchByAuthorStream(String author) {
+        String lower = author.toLowerCase();
+        Map<String, Book> map = new LinkedHashMap<>();
+        items.stream()
+                .filter(item -> item instanceof Book)
+                .map(item -> (Book) item)
+                .filter(book -> book.getAuthor() != null && book.getAuthor().toLowerCase().contains(lower))
+                .forEach(book -> map.putIfAbsent(book.getId(), book)); //no duplicates :)
+        return new ArrayList<>(map.values());
+    }
+
 }
