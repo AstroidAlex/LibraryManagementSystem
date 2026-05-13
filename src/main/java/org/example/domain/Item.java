@@ -10,15 +10,15 @@ public abstract class Item {
     protected String id;
     protected String title;
     protected ItemStatus status;
-    protected String author;
+    protected String creator;
 
     private static int nextId = 1;
 
-    public Item(String title, ItemStatus status, String author) {
+    public Item(String title, ItemStatus status, String creator) {
         this.id = String.format("%04d", nextId++); //TODO: adapt for different types
         this.title = title;
         this.status = status;
-        this.author = author;
+        this.creator = creator;
     }
 
     public void returnItem() {

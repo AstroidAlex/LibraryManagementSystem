@@ -10,8 +10,6 @@ public class Library {
     private final List<Item> items = new LinkedList<>();
     private final Map<String, User> users = new HashMap<>();
 
-
-    private final Queue<String> processingQueue = new LinkedList<>();
     private final Set<String> genres = new HashSet<>();
 
     public void addItem(Item item) {
@@ -25,7 +23,13 @@ public class Library {
         users.put(user.getId(), user);
     }
 
-    public void removeUser(String userId) { users.remove(userId); }
+    public boolean removeUser(String userId) {
+        if (users.containsKey(userId)) {
+            users.remove(userId);
+            return true;
+        }
+        return false;
+    }
 
     public void borrowItem(String userId, String itemId) {
         User user = users.get(userId);

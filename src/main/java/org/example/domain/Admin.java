@@ -3,11 +3,9 @@ package org.example.domain;
 import java.util.List;
 
 public class Admin extends User{
-    private final Library library;
 
-    public Admin(List<Item> borrowedItems, String name, Library library) {
+    public Admin(List<Item> borrowedItems, String name) {
         super(borrowedItems, name);
-        this.library = library;
         setId(String.format("A%4s", getId()));
     }
 
