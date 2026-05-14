@@ -1,13 +1,13 @@
 package org.example.service;
 
-import org.example.domain.Book;
-import org.example.domain.DVD;
-import org.example.domain.Item;
-import org.example.domain.Magazine;
+import org.example.domain.*;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class util {
     void registerNewItem(Item item) {
@@ -36,5 +36,89 @@ public class util {
         } catch (IOException e) {
             System.out.println("Failed to write to the file");
         }
+    }
+
+    List<User> loadUsers() {
+        String path = "src/main/resources/users.csv";
+        File file = new File(path);
+
+        List<User> users = new ArrayList<>();
+
+        try (Scanner input = new Scanner(file)) {
+            input.nextLine();
+
+            while (input.hasNext()) {
+                String row = input.nextLine();
+                String[] data = row.split(",");
+
+                String type = data[0];
+                String id = data[1];
+                String name = toTitleCase(data[2]);
+
+                User user = switch (type) {
+                    case "Student" -> new Student(null, name);
+                    case "Teacher" -> new Teacher(null, name);
+                    case "Admin" -> new Admin(null, name);
+                    default -> new Student(null, null);
+                    //in case of no user this is my chosen default
+                };
+                user.setId(id);
+                users.add(user); // add the new student to the list
+            }
+        } catch (IOException e) {
+            System.out.printf("File %s does not exist%n", path);
+        }
+
+        return users;
+    }
+    List<Item> loadItems() {
+        String path = "src/main/resources/item.csv";
+        File file = new File(path);
+
+        List<Item> items = new ArrayList<>();
+
+        try (Scanner input = new Scanner(file)) {
+            input.nextLine();
+
+            while (input.hasNext()) {
+                String row = input.nextLine();
+                String[] data = row.split(",");
+
+                String type = data[0];
+                String id = data[1];
+                String title = toTitleCase(data[2]);
+                Item item = getItem(data, type, title);
+                if (item != null) {
+                    item.setId(id);
+                }
+                items.add(item); // add the new student to the list
+            }
+        } catch (IOException e) {
+            System.out.printf("File %s does not exist%n", path);
+        }
+
+        return items;
+    }
+
+    private static Item getItem(String[] data, String type, String title) {
+        Item.ItemStatus status = switch (data[3]) {
+            case "AVAILABLE" -> Item.ItemStatus.AVAILABLE;
+            case "BORROWED" -> Item.ItemStatus.BORROWED;
+            case "Lost" -> Item.ItemStatus.LOST;
+            default -> null;
+        };
+
+
+        Item item = switch (type) {
+            case "Book" -> new Book(title, status, data[4], data[5], data[6]);
+            case "DVD" -> new DVD(title, status, data[5], Integer.parseInt(data[6]));
+            case "Magazine" -> new Magazine(title, status, data[5]);
+            default -> null;
+        };
+        return item;
+    }
+
+    String toTitleCase(String str) {
+        return str.substring(0,1).toUpperCase() + str.substring(1).toLowerCase();
     }
 }
