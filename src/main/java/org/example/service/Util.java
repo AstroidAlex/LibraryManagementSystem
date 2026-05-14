@@ -116,19 +116,19 @@ public class Util {
             case Item.Type.BOOK -> { Book book = (Book) item;
                 yield String.format("Book,%s,%s,%s,%s,%s,%s", //found to use yield thanks to stackOverflow and Google
                     item.getId(), item.getTitle(), item.getStatus(),
-                    book.getIsbn(), book.getAuthor(), book.getGenre());
+                    book.getIsbn(), toTitleCase(book.getAuthor()), book.getGenre());
             }
 
             case Item.Type.DVD -> { DVD dvd = (DVD) item;
                 yield String.format("DVD,%s,%s,%s,%s,%s",
                     item.getId(), item.getTitle(), item.getStatus(),
-                    dvd.getDirector(), dvd.getDuration());
+                    toTitleCase(dvd.getDirector()), dvd.getDuration());
             }
 
             case Item.Type.MAGAZINE -> { Magazine magazine = (Magazine) item;
                 yield String.format("Magazine,%s,%s,%s,%s,%s",
                     item.getId(), item.getTitle(), item.getStatus(),
-                    magazine.getIssueNumber(), magazine.getPublisher());
+                    magazine.getIssueNumber(), toTitleCase(magazine.getPublisher()));
             }
 
             default -> " ";
@@ -150,11 +150,11 @@ public class Util {
     }
     private static String buildCSVLineUser(User user) {
         if (user instanceof Student) {
-            return String.format("Student,%s,%s",user.getId(),user.getName());
+            return String.format("Student,%s,%s",user.getId(),toTitleCase(user.getName()));
         } if (user instanceof Teacher) {
-            return String.format("Teacher,%s,%s",user.getId(),user.getName());
+            return String.format("Teacher,%s,%s",user.getId(),toTitleCase(user.getName()));
         } if (user instanceof Admin) {
-            return String.format("Admin,%s,%s",user.getId(),user.getName());
+            return String.format("Admin,%s,%s",user.getId(),toTitleCase(user.getName()));
         }
         return " ";
     }
@@ -163,10 +163,14 @@ public class Util {
         File file = new File("src/main/resources/users.csv");
         try (FileWriter fw = new FileWriter(file)) {
             switch (user) {
-                case Teacher teacher -> fw.write(String.format("Teacher,%s,%s", user.getId(), user.getName()));
-                case Admin admin -> fw.write(String.format("Admin,%s,%s", user.getId(), user.getName()));
-                case Student student -> fw.write(String.format("Student,%s,%s", user.getId(), user.getName()));
-                case null, default -> throw new IllegalArgumentException("Not a valid user");
+                case Teacher teacher ->
+                        fw.write(String.format("Teacher,%s,%s", user.getId(), toTitleCase(user.getName())));
+                case Admin admin ->
+                        fw.write(String.format("Admin,%s,%s", user.getId(), toTitleCase(user.getName())));
+                case Student student ->
+                        fw.write(String.format("Student,%s,%s", user.getId(), toTitleCase(user.getName())));
+                case null, default ->
+                        throw new IllegalArgumentException("Not a valid user");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -191,9 +195,9 @@ public class Util {
                 String name = toTitleCase(data[2]);
 
                 User user = switch (type) {
-                    case "Student" -> new Student(null, name);
-                    case "Teacher" -> new Teacher(null, name);
-                    case "Admin" -> new Admin(null, name);
+                    case "Student" -> new Student(null, toTitleCase(name));
+                    case "Teacher" -> new Teacher(null, toTitleCase(name));
+                    case "Admin" -> new Admin(null, toTitleCase(name));
                     default -> null;
                     //in case of no user this is my chosen default
                 };
