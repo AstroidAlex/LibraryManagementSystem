@@ -17,5 +17,6 @@ public class Magazine extends Item{
         this.issueNumber = String.format("%04d", nextIssue++);
         this.publisher = creator;
         setId(String.format("M%4s", getId()));
+        setType(Type.MAGAZINE);
     }
 }

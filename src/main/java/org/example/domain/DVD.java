@@ -16,5 +16,6 @@ public class DVD extends Item{
         this.director = creator;
         this.duration = duration;
         setId(String.format("D%4s", getId()));
+        setType(Type.DVD);
     }
 }

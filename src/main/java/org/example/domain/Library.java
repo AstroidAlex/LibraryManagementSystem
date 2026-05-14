@@ -13,6 +13,7 @@ public class Library {
 
     public void addItem(Item item) {
         items.add(item);
+
     }
 
     public void addUser(User user) {
@@ -45,6 +46,9 @@ public class Library {
             throw new IllegalArgumentException(
                     String.format("%s cannot borrow more than %d items",
                             user.getClass().getSimpleName(), user.getBorrowingLimit()));
+        }
+        if (user.hasBorrowed(item)) { //no duplicate borrowing
+            throw new IllegalArgumentException("Can not borrow more than 1 copy of the same item");
         }
         if (item != null) {
             item.borrow();

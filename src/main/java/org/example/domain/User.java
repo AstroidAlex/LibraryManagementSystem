@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 @Getter
@@ -39,7 +42,5 @@ public abstract class User {
         return borrowedItems.contains(item);
     }
 
-    void registerBorrowedItem(Item item) {
 
-    }
 }

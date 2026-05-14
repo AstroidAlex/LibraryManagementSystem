@@ -7,6 +7,7 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 public abstract class Item {
+    private Type type;
     protected String id;
     protected String title;
     protected ItemStatus status;
@@ -40,6 +41,10 @@ public abstract class Item {
             throw new IllegalStateException("Item is not available. Status: " + status);
         }
         status = ItemStatus.BORROWED;
+    }
+
+    public enum Type {
+        BOOK, DVD, MAGAZINE
     }
 
     public enum ItemStatus {

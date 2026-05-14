@@ -18,5 +18,6 @@ public class Book extends Item{
         this.genre = genre;
         this.author = creator;
         setId(String.format("B%4s", getId()));
+        setType(Type.BOOK);
     }
 }
