@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.example.service.Util;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -31,11 +32,13 @@ public abstract class User {
 
     public void borrow(Item item) {
         borrowedItems.add(item);
-        registerBorrowedItem(item);
+        item.setStatus(Item.ItemStatus.BORROWED);
+        Util.registerItemStatus(item.getId(), item.getStatus());
     }
 
     public void returnItem(Item item) {
         borrowedItems.remove(item);
+        item.setStatus(Item.ItemStatus.AVAILABLE);
     }
 
     public boolean hasBorrowed(Item item) {

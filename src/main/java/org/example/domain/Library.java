@@ -1,12 +1,13 @@
 package org.example.domain;
 
 import lombok.Getter;
+import org.example.interfaces.Reportable;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
-public class Library {
+public class Library implements Reportable {
     private final List<Item> items = new LinkedList<>();
     private final Map<String, User> users = new HashMap<>();
 
@@ -125,10 +126,7 @@ public class Library {
     }
 
 
-    public String generateReport(User user) {
-        if (!(user instanceof Admin)) {
-            return null;
-        }
+    public String generateReport() {
         long available = countByStatus(Item.ItemStatus.AVAILABLE);
         long borrowed = countByStatus(Item.ItemStatus.BORROWED);
         long lost = countByStatus(Item.ItemStatus.LOST);

@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class util {
-    void registerNewItem(Item item) {
+public class Util {
+    public static void registerNewItem(Item item) {
         File file = new File("src/main/resources/items.csv");
         try (FileWriter fw = new FileWriter(file)) {
             String field1 = switch (item) {
@@ -37,7 +37,7 @@ public class util {
             System.out.println("Failed to write to the file");
         }
     }
-    List<Item> loadItems() {
+    public static List<Item> loadItems() {
         String path = "src/main/resources/item.csv";
         File file = new File(path);
 
@@ -83,7 +83,7 @@ public class util {
         };
         return item;
     }
-    void registerItemStatus(String itemId, Item.ItemStatus itemStatus) {
+    public static void registerItemStatus(String itemId, Item.ItemStatus itemStatus) {
         List<Item> items = loadItems();
         for (Item item : items) {
             if (item.getId().equals(itemId)) {
@@ -93,7 +93,7 @@ public class util {
         }
         rewriteItemsFile(items);
     }
-    private void rewriteItemsFile(List<Item> items) {
+    private static void rewriteItemsFile(List<Item> items) {
         File file = new File("src/main/resources/items.csv");
 
         try (FileWriter fw = new FileWriter(file, false)) { // false = overwrite, not append
@@ -109,7 +109,7 @@ public class util {
         }
     }
 
-    private String buildCSVLine(Item item) {
+    private static String buildCSVLine(Item item) {
         // Book,B0001,Effective Java,AVAILABLE,9780134685991,Joshua Bloch,Programming -> heading format example
 
         return switch (item.getType()) {
@@ -135,7 +135,7 @@ public class util {
         };
     }
 
-    void registerNewUser(User user) {
+    public static void registerNewUser(User user) {
         File file = new File("src/main/resources/users.csv");
         try (FileWriter fw = new FileWriter(file)) {
             switch (user) {
@@ -149,7 +149,7 @@ public class util {
         }
     }
 
-    List<User> loadUsers() {
+    public static List<User> loadUsers() {
         String path = "src/main/resources/users.csv";
         File file = new File(path);
 
@@ -183,7 +183,7 @@ public class util {
         return users;
     }
 
-    String toTitleCase(String str) {
+    static String toTitleCase(String str) {
         return str.substring(0,1).toUpperCase() +
                 str.substring(1).toLowerCase();
     }
