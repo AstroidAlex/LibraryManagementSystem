@@ -16,7 +16,7 @@ public abstract class Item {
     private static int nextId = 1;
 
     public Item(String title, ItemStatus status, String creator) {
-        this.id = String.format("%04d", nextId++); //TODO: adapt for different types
+        this.id = String.format("%04d", nextId++);
         this.title = title;
         this.status = status;
         this.creator = creator;

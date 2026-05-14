@@ -34,6 +34,9 @@ public abstract class User {
     }
 
     public void returnItem(Item item) {
+        if (!borrowedItems.contains(item)) {
+            throw new IllegalArgumentException("The user does not have this item");
+        }
         borrowedItems.remove(item);
         item.setStatus(Item.ItemStatus.AVAILABLE);
     }

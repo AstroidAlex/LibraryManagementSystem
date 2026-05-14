@@ -35,28 +35,49 @@ public class Library implements Reportable {
         Item item = null; //temp
         for (Item it : items) { //bypasses the need to set items to map. Other methods need items as a list
             if (it.getId().equals(itemId)) {
-                item = it; //TODO: check if this makes it more than just the id
+                item = it;
                 break;
             }
         }
-        String type = item instanceof Book ? "Book" : item instanceof DVD ? "DVD" : "Magazine";
-        if (!user.canBorrow(item)) {
-            throw new IllegalArgumentException(
-                    String.format("%s cannot borrow %s items", user.getClass().getSimpleName(), type));
+
+        if (item != null && !(item.getStatus() == Item.ItemStatus.AVAILABLE)) { //searches for alternative books
+            String title = item.getTitle();
+            System.out.println("Searching for alternatives with same title...");
+            List<Item> alternatives = searchByTitleRecursive(title);
+            for (Item alt : alternatives) {
+                if (alt.getStatus() == Item.ItemStatus.AVAILABLE) {
+                    System.out.println("Found available book");
+                    item = alt;
+                }
+            }
+
         }
-        if (user.borrowedItems.size() > user.getBorrowingLimit()) {
+        String type = item instanceof Book ?
+                "Book" : item instanceof DVD ? "DVD" : "Magazine"; // used to check if type of item is valid
+
+        if (item == null) { //checks if results were found
+            throw new IllegalArgumentException(String.format
+                    ("Sorry, %s is unavailable", itemId));
+        }
+        if (!user.canBorrow(item)) { //checks if user can borrow item
+            throw new IllegalArgumentException(
+                    String.format("%s cannot borrow %s type items", user.getClass().getSimpleName(), type));
+        }
+        if (user.borrowedItems.size() > user.getBorrowingLimit()) { //checks if it exceeds borrowing limit
             throw new IllegalArgumentException(
                     String.format("%s cannot borrow more than %d items",
                             user.getClass().getSimpleName(), user.getBorrowingLimit()));
         }
-        if (user.hasBorrowed(item)) { //no duplicate borrowing
-            throw new IllegalArgumentException("Can not borrow more than 1 copy of the same item");
+        for (Item it1 : user.getBorrowedItems()) { //checks if the person is borrowing twice the same item
+            if (it1.title.equals(item.getTitle())) {
+                throw new IllegalArgumentException("User cannot borrow more than 1 copy of the same item");
+            }
         }
-        if (item != null) {
-            item.borrow();
-            user.borrowedItems.add(item);
-            user.borrow(item);
-        }
+        //does borrow process and confirms success
+        item.borrow();
+        user.borrowedItems.add(item);
+        user.borrow(item);
+        System.out.printf("%s has successfully borrowed %s,%s", userId, item.getTitle(), item.getId());
     }
 
     public void returnItem(String userId, String itemId) {
@@ -68,10 +89,16 @@ public class Library implements Reportable {
                 break;
             }
         }
-        if (item != null) {
-            item.returnItem();
-            user.returnItem(item);
+        if (item == null) {
+            throw new IllegalArgumentException("Item was not found"); //added to avoid breaking due to using null
         }
+        if (!user.hasBorrowed(item)) { //confirms user does have item to be returned
+            throw new IllegalArgumentException("User doesn't own item");
+        }
+        //does the borrowing process plus confirmation of task completed
+        item.returnItem();
+        user.returnItem(item);
+        System.out.println("Item has been successfully returned");
     }
 
     public List<Item> searchByTitleRecursive(String title) {
@@ -81,10 +108,10 @@ public class Library implements Reportable {
         List<Item> items = getItems();
         if (items == null) return results;
         for (Item item : items) {
-            if (item == null || item.getTitle() == null) continue;
+            if (item == null || item.getTitle() == null || results.contains(item)) continue; //skips unwanted items
             if (item.getTitle().trim().toLowerCase().equals(target)) results.add(item);
         }
-        return results; //TODO: NO DUPLICATES
+        return results;
     }
 
     public List<Item> findAllByTitleStream(String title) {
