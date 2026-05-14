@@ -38,7 +38,7 @@ public class Util {
         }
     }
     public static List<Item> loadItems() {
-        String path = "src/main/resources/item.csv";
+        String path = "src/main/resources/items.csv";
         File file = new File(path);
 
         List<Item> items = new ArrayList<>();
@@ -76,9 +76,9 @@ public class Util {
 
 
         Item item = switch (type) {
-            case "Book" -> new Book(title, status, data[4], data[5], data[6]);
-            case "DVD" -> new DVD(title, status, data[5], Integer.parseInt(data[6]));
-            case "Magazine" -> new Magazine(title, status, data[5]);
+            case "Book" -> new Book(title, status, data[3], data[4], data[5]);
+            case "DVD" -> new DVD(title, status, data[4], Integer.parseInt(data[5]));
+            case "Magazine" -> new Magazine(title, status, data[4]);
             default -> null;
         };
         return item;
@@ -201,11 +201,9 @@ public class Util {
                     default -> null;
                     //in case of no user this is my chosen default
                 };
-                if (Validation.isValidId(id)) { //only sets id if it is valid to add
-                    if (!(user == null)) { //Double checks is not a default user
-                        user.setId(id);
-                        users.add(user); // add the new user to the list assuming is not a default
-                    }
+                if (!(user == null)) { //Double checks is not a default user
+
+                    users.add(user); // add the new user to the list assuming is not a default
                 }
             }
         } catch (IOException e) {

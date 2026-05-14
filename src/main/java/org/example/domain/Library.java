@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.interfaces.Reportable;
 import org.example.service.Util;
+import org.example.service.Validation;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,19 +23,24 @@ public class Library implements Reportable {
         users.put(user.getId(), user);
     }
 
-    public boolean removeUser(String userId) {
-        if (users.containsKey(userId)) {
+    public void removeUser(String userId) {
+        if (users.containsKey(userId.toUpperCase())) {
             users.remove(userId);
-            return true;
+            System.out.println("User successfully removed");
+        } else {
+            System.out.println("User was not removed successfully");
         }
-        return false;
+
     }
 
     public void borrowItem(String userId, String itemId) {
-        User user = users.get(userId);
+        User user = users.get(userId.toUpperCase());
+        if (!(Validation.isValidId(itemId) || Validation.isValidId(userId))) {
+            throw new IllegalArgumentException("Id is not valid");
+        }
         Item item = null; //temp
         for (Item it : items) { //bypasses the need to set items to map. Other methods need items as a list
-            if (it.getId().equals(itemId)) {
+            if (it.getId().equals(itemId.toUpperCase())) {
                 item = it;
                 break;
             }

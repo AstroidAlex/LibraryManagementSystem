@@ -9,20 +9,17 @@ public class Validation {
         return isbn.matches("\\d{13}");
     }
     public static boolean isValidId(String id) {
-        if (!isNotEmpty(id)) {
+        if (!isNotEmpty(id) || id.length() != 5) {
+            System.out.println("invalid size");
             return false;
         }
         if (!Character.isAlphabetic(id.charAt(0))) {
+            System.out.println("No letter Prefix");
             return false;
         }
-        for (int i = 0; i < id.length() - 1; i++) {
+        for (int i = 1; i < id.length(); i++) {
             if (!Character.isDigit(id.charAt(i))) {
-                return false;
-            }
-        }
-        List<User> users = Util.loadUsers(); //checks id isn't taken already.
-        for (User user : users) {
-            if (user.getId().equals(id)) {
+                System.out.println("Not a digit");
                 return false;
             }
         }
