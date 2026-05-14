@@ -27,11 +27,12 @@ public abstract class User {
     public abstract boolean canBorrow(Item item);
 
     public void borrow(Item item) {
-        //TODO: soon
+        borrowedItems.add(item);
+        registerBorrowedItem(item);
     }
 
     public void returnItem(Item item) {
-        //TODO: soon
+        borrowedItems.remove(item);
     }
 
     public boolean hasBorrowed(Item item) {
@@ -39,6 +40,6 @@ public abstract class User {
     }
 
     void registerBorrowedItem(Item item) {
-        //TODO: update after CSV
+
     }
 }

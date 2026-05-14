@@ -65,7 +65,6 @@ public class Library {
         if (item != null) {
             item.returnItem();
             user.returnItem(item);
-            user.returnItem(item); //TODO: report compatibility
         }
     }
 
