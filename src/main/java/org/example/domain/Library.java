@@ -156,6 +156,10 @@ public class Library implements Reportable {
         Util.rewriteItemsFile(items);
         Util.rewriteUserFile((List<User>) users); //will see if it breaks
     }
+    public void loadData() {
+        Util.loadItems();
+        Util.loadUsers();
+    }
 
     public String generateReport() {
         long available = countByStatus(Item.ItemStatus.AVAILABLE);

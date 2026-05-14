@@ -194,11 +194,15 @@ public class Util {
                     case "Student" -> new Student(null, name);
                     case "Teacher" -> new Teacher(null, name);
                     case "Admin" -> new Admin(null, name);
-                    default -> new Student(null, null);
+                    default -> null;
                     //in case of no user this is my chosen default
                 };
-                user.setId(id);
-                users.add(user); // add the new student to the list
+                if (Validation.isValidId(id)) { //only sets id if it is valid to add
+                    if (!(user == null)) { //Double checks is not a default user
+                        user.setId(id);
+                        users.add(user); // add the new user to the list assuming is not a default
+                    }
+                }
             }
         } catch (IOException e) {
             System.out.printf("File %s does not exist%n", path);
@@ -207,7 +211,22 @@ public class Util {
         return users;
     }
 
-    static String toTitleCase(String str) {
+    public static String toTitleCase(String str) {
+        if (str == null || str.trim().isEmpty()) {
+            return str;
+        }
+        if (str.trim().lastIndexOf(' ') > 0) {
+            String[] words = str.split(" ");
+            StringBuilder result = new StringBuilder();
+
+            for (int i = 0; i < words.length; i++) {
+                result.append(toTitleCase(words[i].trim()));
+                if (i < words.length - 1) {
+                    result.append(" ");
+                }
+            }
+            return result.toString();
+        }
         return str.substring(0,1).toUpperCase() +
                 str.substring(1).toLowerCase();
     }
