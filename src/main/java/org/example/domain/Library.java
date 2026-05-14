@@ -1,6 +1,7 @@
 package org.example.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.example.interfaces.Reportable;
 import org.example.service.Util;
 
@@ -15,7 +16,6 @@ public class Library implements Reportable {
 
     public void addItem(Item item) {
         items.add(item);
-
     }
 
     public void addUser(User user) {

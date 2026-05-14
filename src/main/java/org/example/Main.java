@@ -11,6 +11,12 @@ public class Main {
         //Creating school...
         List<User> users = Util.loadUsers();
         List<Item> items = Util.loadItems();
-
+        Library library = new Library();
+        for (Item item : items) {
+            library.addItem(item);
+        }
+        for (User user : users) {
+            library.addUser(user);
+        }
     }
 }
