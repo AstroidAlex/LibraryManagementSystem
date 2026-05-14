@@ -97,7 +97,7 @@ public class Util {
         File file = new File("src/main/resources/items.csv");
 
         try (FileWriter fw = new FileWriter(file, false)) { // false = overwrite, not append
-            // fw.write("type,id,title,status,field1,field2,field3") example heading
+            fw.write("type,id,title,status,field1,field2,field3\n");
 
             for (Item item : items) {
                 // Build the CSV line based on item type
@@ -138,7 +138,7 @@ public class Util {
         File file = new File("src/main/resources/items.csv");
 
         try (FileWriter fw = new FileWriter(file, false)) { // false = overwrite, not append
-            // fw.write("Type,ID,Name") format heading
+             fw.write("Type,ID,Name\n");
 
             for (User user : users) {
                 String line = buildCSVLineUser(user);
@@ -193,11 +193,11 @@ public class Util {
                 String type = data[0];
                 String id = data[1];
                 String name = toTitleCase(data[2]);
-
+                List<Item> emptylist = new ArrayList<>(0);
                 User user = switch (type) {
-                    case "Student" -> new Student(null, toTitleCase(name));
-                    case "Teacher" -> new Teacher(null, toTitleCase(name));
-                    case "Admin" -> new Admin(null, toTitleCase(name));
+                    case "Student" -> new Student(emptylist, toTitleCase(name));
+                    case "Teacher" -> new Teacher(emptylist, toTitleCase(name));
+                    case "Admin" -> new Admin(emptylist, toTitleCase(name));
                     default -> null;
                     //in case of no user this is my chosen default
                 };

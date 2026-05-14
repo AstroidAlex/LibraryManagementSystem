@@ -39,8 +39,9 @@ public class Library implements Reportable {
             throw new IllegalArgumentException("Id is not valid");
         }
         Item item = null; //temp
-        for (Item it : items) { //bypasses the need to set items to map. Other methods need items as a list
-            if (it.getId().equals(itemId.toUpperCase())) {
+        for (Item it : items) {
+            System.out.println(it);//bypasses the need to set items to map. Other methods need items as a list
+            if (it.getId().equalsIgnoreCase(itemId)) {
                 item = it;
                 break;
             }
@@ -63,15 +64,15 @@ public class Library implements Reportable {
 
         if (item == null) { //checks if results were found
             throw new IllegalArgumentException(String.format
-                    ("Sorry, %s is unavailable", itemId));
+                    ("Sorry, %s is unavailable\n", itemId));
         }
         if (!user.canBorrow(item)) { //checks if user can borrow item
             throw new IllegalArgumentException(
-                    String.format("%s cannot borrow %s type items", user.getClass().getSimpleName(), type));
+                    String.format("%s cannot borrow %s type items\n", user.getClass().getSimpleName(), type));
         }
         if (user.borrowedItems.size() > user.getBorrowingLimit()) { //checks if it exceeds borrowing limit
             throw new IllegalArgumentException(
-                    String.format("%s cannot borrow more than %d items",
+                    String.format("%s cannot borrow more than %d items\n",
                             user.getClass().getSimpleName(), user.getBorrowingLimit()));
         }
         for (Item it1 : user.getBorrowedItems()) { //checks if the person is borrowing twice the same item
@@ -83,14 +84,15 @@ public class Library implements Reportable {
         item.borrow();
         user.borrowedItems.add(item);
         user.borrow(item);
-        System.out.printf("%s has successfully borrowed %s,%s", userId, item.getTitle(), item.getId());
+        System.out.printf("%s has successfully borrowed %s,%s\n", userId, item.getTitle(), item.getId());
     }
 
     public void returnItem(String userId, String itemId) {
-        User user = users.get(userId);
+        User user = users.get(userId.toUpperCase(Locale.ROOT));
+        System.out.println(user);
         Item item = null; //temp
         for (Item it : items) { //bypasses the need to set items to map. Other methods need items as a list
-            if (it.getId().equals(itemId)) {
+            if (it.getId().equalsIgnoreCase(itemId)) {
                 item = it;
                 break;
             }

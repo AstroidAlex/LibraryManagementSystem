@@ -18,8 +18,10 @@ public class Main {
         for (User user : users) {
             library.addUser(user);
         }
-        System.out.println(library.generateReport());
-        library.removeUser("S0001");
-        library.borrowItem("s0001", "B0001");
+        //library.borrowItem("s0002", "B0001");
+        //library.borrowItem("s0002", "B0002");
+
+        library.returnItem("s0002", "b0001");
+        library.returnItem("s0002", "b0002");
     }
 }

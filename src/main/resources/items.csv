@@ -1,7 +1,8 @@
-Book,B0001,Effective Java,AVAILABLE,9780134685991,Joshua Bloch,Programming
-Book,B0002,Clean Code,AVAILABLE,9780132350884,Robert C. Martin,Programming
-Book,B0003,The Hobbit,AVAILABLE,9780547928227,J.R.R. Tolkien,Fantasy
-Book,B0004,The Hobbit,BORROWED,9780547928227,J.R.R. Tolkien,Fantasy
-DVD,D0005,Inception,AVAILABLE,Christopher Nolan,148,
-DVD,D0006,The Matrix,AVAILABLE,Movie Director,136,
-Magazine,M0007,National Geographic,AVAILABLE,0005,National Geographic Society,
+type,id,title,status,field1,field2,field3
+Book,B0001,Effective Java,BORROWED,null,9780134685991,Joshua Bloch
+Book,B0002,Clean Code,BORROWED,null,9780134385998,Joshua Bloch
+Book,B0003,The Hobbit,AVAILABLE,null,Null,Null
+Book,B0004,The Hobbit,BORROWED,null,Null,Null
+DVD,D0005,Inception,AVAILABLE,Christopher Nolan,148
+DVD,D0006,The Matrix,AVAILABLE,Movie Director,136
+Magazine,M0007,National Geographic,AVAILABLE,0002,Unknown
