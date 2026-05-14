@@ -2,6 +2,7 @@ package org.example.domain;
 
 import lombok.Getter;
 import org.example.interfaces.Reportable;
+import org.example.service.Util;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -124,7 +125,10 @@ public class Library implements Reportable {
         sorted.sort(comparator);
         return sorted;
     }
-
+    public void backupData(){
+        Util.rewriteItemsFile(items);
+        Util.rewriteUserFile((List<User>) users); //will see if it breaks
+    }
 
     public String generateReport() {
         long available = countByStatus(Item.ItemStatus.AVAILABLE);

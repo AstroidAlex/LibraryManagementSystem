@@ -93,7 +93,7 @@ public class Util {
         }
         rewriteItemsFile(items);
     }
-    private static void rewriteItemsFile(List<Item> items) {
+    public static void rewriteItemsFile(List<Item> items) {
         File file = new File("src/main/resources/items.csv");
 
         try (FileWriter fw = new FileWriter(file, false)) { // false = overwrite, not append
@@ -101,7 +101,7 @@ public class Util {
 
             for (Item item : items) {
                 // Build the CSV line based on item type
-                String line = buildCSVLine(item);
+                String line = buildCSVLineItems(item);
                 fw.write(line + "\n");
             }
         } catch (IOException e) {
@@ -109,7 +109,7 @@ public class Util {
         }
     }
 
-    private static String buildCSVLine(Item item) {
+    private static String buildCSVLineItems(Item item) {
         // Book,B0001,Effective Java,AVAILABLE,9780134685991,Joshua Bloch,Programming -> heading format example
 
         return switch (item.getType()) {
@@ -133,6 +133,30 @@ public class Util {
 
             default -> " ";
         };
+    }
+    public static void rewriteUserFile(List<User> users) {
+        File file = new File("src/main/resources/items.csv");
+
+        try (FileWriter fw = new FileWriter(file, false)) { // false = overwrite, not append
+            // fw.write("Type,ID,Name") format heading
+
+            for (User user : users) {
+                String line = buildCSVLineUser(user);
+                fw.write(line + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private static String buildCSVLineUser(User user) {
+        if (user instanceof Student) {
+            return String.format("Student,%s,%s",user.getId(),user.getName());
+        } if (user instanceof Teacher) {
+            return String.format("Teacher,%s,%s",user.getId(),user.getName());
+        } if (user instanceof Admin) {
+            return String.format("Admin,%s,%s",user.getId(),user.getName());
+        }
+        return " ";
     }
 
     public static void registerNewUser(User user) {
