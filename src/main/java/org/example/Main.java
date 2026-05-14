@@ -18,8 +18,8 @@ public class Main {
         for (User user : users) {
             library.addUser(user);
         }
-        //library.borrowItem("s0002", "B0001");
-        //library.borrowItem("s0002", "B0002");
+        library.borrowItem("s0002", "B0001");
+        library.borrowItem("s0002", "B0002");
 
         library.returnItem("s0002", "b0001");
         library.returnItem("s0002", "b0002");
