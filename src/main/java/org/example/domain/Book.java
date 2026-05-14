@@ -2,9 +2,11 @@ package org.example.domain;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @Getter
+@ToString
 public class Book extends Item{
     private final String isbn;
     private final String genre;

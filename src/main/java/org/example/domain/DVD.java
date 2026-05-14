@@ -2,9 +2,11 @@ package org.example.domain;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
+@ToString
 public class DVD extends Item{
     private final String director;
     private final int duration;

@@ -3,7 +3,6 @@ package org.example.domain;
 import java.util.List;
 
 public class Admin extends User{
-
     public Admin(List<Item> borrowedItems, String name) {
         super(borrowedItems, name);
         setId(String.format("A%4s", getId()));

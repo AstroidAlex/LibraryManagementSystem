@@ -26,7 +26,7 @@ public abstract class User {
     public abstract int getBorrowingLimit();
     public abstract boolean canBorrow(Item item);
 
-    public void borrowItem(Item item) {
+    public void borrow(Item item) {
         //TODO: soon
     }
 

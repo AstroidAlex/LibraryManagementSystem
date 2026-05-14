@@ -10,13 +10,9 @@ public class Library {
     private final List<Item> items = new LinkedList<>();
     private final Map<String, User> users = new HashMap<>();
 
-    private final Set<String> genres = new HashSet<>();
 
     public void addItem(Item item) {
         items.add(item);
-        if (item instanceof Book) {
-            genres.add(((Book) item).getGenre());
-        }
     }
 
     public void addUser(User user) {
@@ -36,7 +32,7 @@ public class Library {
         Item item = null; //temp
         for (Item it : items) { //bypasses the need to set items to map. Other methods need items as a list
             if (it.getId().equals(itemId)) {
-                item = it;
+                item = it; //TODO: check if this makes it more than just the id
                 break;
             }
         }
@@ -50,6 +46,11 @@ public class Library {
                     String.format("%s cannot borrow more than %d items",
                             user.getClass().getSimpleName(), user.getBorrowingLimit()));
         }
+        if (item != null) {
+            item.borrow();
+            user.borrowedItems.add(item);
+            user.borrow(item);
+        }
     }
 
     public void returnItem(String userId, String itemId) {
@@ -61,7 +62,11 @@ public class Library {
                 break;
             }
         }
-        user.returnItem(item); //TODO: report compatibility
+        if (item != null) {
+            item.returnItem();
+            user.returnItem(item);
+            user.returnItem(item); //TODO: report compatibility
+        }
     }
 
     public List<Item> searchByTitleRecursive(String title) {
@@ -129,7 +134,6 @@ public class Library {
                 String.format("Available:      %d%n", available) +
                 String.format("Borrowed:       %d%n", borrowed) +
                 String.format("Lost:           %d%n", lost) +
-                String.format("Unique Genres:  %d%n", genres.size()) +
                 String.format("Total Users:    %d%n", users.size());
 
     }
