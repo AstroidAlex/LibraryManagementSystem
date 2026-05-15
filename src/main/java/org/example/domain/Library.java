@@ -90,7 +90,7 @@ public class Library implements Reportable {
             throw new IllegalArgumentException(
                     String.format("%s cannot borrow %s type items\n", user.getClass().getSimpleName(), type));
         }
-        if (user.borrowedItems.size() > user.getBorrowingLimit()) { //checks if it exceeds borrowing limit
+        if (user.borrowedItems.size() >= user.getBorrowingLimit()) { //checks if it exceeds borrowing limit
             throw new IllegalArgumentException(
                     String.format("%s cannot borrow more than %d items\n",
                             user.getClass().getSimpleName(), user.getBorrowingLimit()));
@@ -101,8 +101,6 @@ public class Library implements Reportable {
             }
         }
         //does borrow process and confirms success
-        item.borrow();
-        user.borrowedItems.add(item);
         user.borrow(item);
         System.out.printf("%s has successfully borrowed %s,%s\n", userId, item.getTitle(), item.getId());
     }
