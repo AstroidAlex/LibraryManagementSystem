@@ -91,13 +91,12 @@ public class Util {
         };
 
 
-        Item item = switch (type) {
+        return switch (type) {
             case "Book" -> new Book(title, status, data[4], data[5], data[6]);
             case "DVD" -> new DVD(title, status, data[4], Integer.parseInt(data[5]));
             case "Magazine" -> new Magazine(title, status, data[5]);
             default -> null;
         };
-        return item;
     }
 
     /**
@@ -132,7 +131,7 @@ public class Util {
                 fw.write(line + "\n");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -162,8 +161,6 @@ public class Util {
                     item.getId(), item.getTitle(), item.getStatus(),
                     magazine.getIssueNumber(), toTitleCase(magazine.getPublisher()));
             }
-
-            default -> " ";
         };
     }
 
