@@ -20,7 +20,7 @@ public class Library implements Reportable {
     }
 
     public void addUser(User user) {
-        users.put(user.getId(), user);
+        users.put(user.getId().toUpperCase(), user);
     }
 
     public void removeUser(String userId) {
@@ -104,9 +104,10 @@ public class Library implements Reportable {
             throw new IllegalArgumentException("User doesn't own item");
         }
         //does the borrowing process plus confirmation of task completed
+        backupData();
         item.returnItem();
         user.returnItem(item);
-        System.out.println("Item has been successfully returned");
+        System.out.printf("%s has been successfully returned", item.getTitle());
     }
 
     public List<Item> searchByTitleRecursive(String title) {
@@ -162,7 +163,7 @@ public class Library implements Reportable {
     }
     public void backupData(){
         Util.rewriteItemsFile(items);
-        Util.rewriteUserFile((List<User>) users); //will see if it breaks
+        Util.rewriteUserFile(new ArrayList<>(users.values()));
     }
     public void loadData() {
         Util.loadItems();

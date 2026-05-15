@@ -31,7 +31,7 @@ public class Util {
                 case Magazine m -> "";
                 default -> throw new IllegalStateException("Unexpected value: " + item);
             };
-            fw.write(String.format("%s,%s,%s,%s,%s,%s",item.getType(),item.getId(),item.getTitle(),
+            fw.write(String.format("%s,%s,%s,%s,%s,%s,",item.getType(),item.getId(),item.getTitle(),
                     field1,field2,field3));
         } catch (IOException e) {
             System.out.println("Failed to write to the file");
@@ -97,7 +97,7 @@ public class Util {
         File file = new File("src/main/resources/items.csv");
 
         try (FileWriter fw = new FileWriter(file, false)) { // false = overwrite, not append
-            fw.write("type,id,title,status,field1,field2,field3\n");
+            fw.write("type,id,title,status,field1,field2,field3,\n");
 
             for (Item item : items) {
                 // Build the CSV line based on item type
@@ -159,16 +159,6 @@ public class Util {
         return " ";
     }
 
-    public static void registerNewUser(User user) {
-        File file = new File("src/main/resources/users.csv");
-        try (FileWriter fw = new FileWriter(file, true)) { //appends now
-            String line = buildCSVLineUser(user);
-            fw.write(line + "\n");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static List<User> loadUsers() {
         String path = "src/main/resources/users.csv";
         File file = new File(path);
@@ -194,7 +184,7 @@ public class Util {
                     //in case of no user this is my chosen default
                 };
                 if (!(user == null)) { //Double checks is not a default user
-
+                    user.setId(id); //without, returns null
                     users.add(user); // add the new user to the list assuming is not a default
                 }
             }
