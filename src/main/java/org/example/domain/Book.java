@@ -7,6 +7,7 @@ import org.example.service.Validation;
 
 @EqualsAndHashCode(callSuper = false)
 @Getter
+@ToString
 public class Book extends Item{
     private final String isbn;
     private final String genre;
@@ -21,16 +22,4 @@ public class Book extends Item{
         setType(Type.BOOK);
     }
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "isbn='" + isbn + '\'' +
-                ", genre='" + genre + '\'' +
-                ", author='" + author + '\'' +
-                ", id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", status=" + status +
-                ", creator='" + creator + '\'' +
-                '}';
-    }
 }

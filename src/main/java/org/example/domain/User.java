@@ -33,6 +33,10 @@ public abstract class User {
         Util.registerItemStatus(item.getId(), item.getStatus());
     }
 
+    /**
+     * Allows the user to give back the item
+     * @param item is the item that wants to be returned
+     */
     public void returnItem(Item item) {
         if (!borrowedItems.contains(item)) {
             throw new IllegalArgumentException("The user does not have this item");
@@ -41,6 +45,11 @@ public abstract class User {
         item.setStatus(Item.ItemStatus.AVAILABLE);
     }
 
+    /**
+     * Checks if the person already has the item
+     * @param item is the item that you want to check if the user has
+     * @return whether or not that the user has the item
+     */
     public boolean hasBorrowed(Item item) {
         return borrowedItems.contains(item);
     }

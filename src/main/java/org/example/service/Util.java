@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Util {
+    /**
+     * Allows to register a new item
+     * @param item s the item to be registered onto the csv
+     */
     public static void registerNewItem(Item item) {
         File file = new File("src/main/resources/items.csv");
         try (FileWriter fw = new FileWriter(file)) {
@@ -37,6 +41,11 @@ public class Util {
             System.out.println("Failed to write to the file");
         }
     }
+
+    /**
+     * read the items off the csv
+     * @return the items as a list that were found in the items.csv
+     */
     public static List<Item> loadItems() {
         String path = "src/main/resources/items.csv";
         File file = new File(path);
@@ -66,6 +75,13 @@ public class Util {
         return items;
     }
 
+    /**
+     * is a helper method for the load item as it was getting too long
+     * @param data is the array of data found in the csv
+     * @param type is the type of item
+     * @param title is the title of the item
+     * @return the information on the desired item
+     */
     private static Item getItem(String[] data, String type, String title) {
         Item.ItemStatus status = switch (data[3]) {
             case "AVAILABLE" -> Item.ItemStatus.AVAILABLE;
@@ -83,6 +99,12 @@ public class Util {
         };
         return item;
     }
+
+    /**
+     * allows the person to register a change to the item's status
+     * @param itemId is the id of the item of which the status should be changed
+     * @param itemStatus is the new status to be set to
+     */
     public static void registerItemStatus(String itemId, Item.ItemStatus itemStatus) {
         List<Item> items = loadItems();
         for (Item item : items) {
@@ -93,6 +115,11 @@ public class Util {
         }
         rewriteItemsFile(items);
     }
+
+    /**
+     * rewrites the csv file whenever large changes are made and can no longer be appended
+     * @param items is the list of items that are a part of the csv file
+     */
     public static void rewriteItemsFile(List<Item> items) {
         File file = new File("src/main/resources/items.csv");
 
@@ -109,6 +136,11 @@ public class Util {
         }
     }
 
+    /**
+     * helper method to build the items csv file
+     * @param item is the item that needs to be converted to csv
+     * @return the csv version of the item
+     */
     private static String buildCSVLineItems(Item item) {
         // Book,B0001,Effective Java,AVAILABLE,9780134685991,Joshua Bloch,Programming -> heading format example
 
@@ -134,6 +166,11 @@ public class Util {
             default -> " ";
         };
     }
+
+    /**
+     * just like items, it overwrites the csv file with the fresh information
+     * @param users is the users to be added to the csv file
+     */
     public static void rewriteUserFile(List<User> users) {
         File file = new File("src/main/resources/users.csv");
 
@@ -148,6 +185,12 @@ public class Util {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Just like items as well, it is the helper method to make csv lines but for users
+     * @param user is the user to be added
+     * @return the csv format of the user
+     */
     private static String buildCSVLineUser(User user) {
         if (user instanceof Student) {
             return String.format("Student,%s,%s,",user.getId(),toTitleCase(user.getName()));
@@ -159,6 +202,10 @@ public class Util {
         return " ";
     }
 
+    /**
+     * reads the csv file for all the users
+     * @return the list of users found on the file
+     */
     public static List<User> loadUsers() {
         String path = "src/main/resources/users.csv";
         File file = new File(path);
@@ -195,6 +242,11 @@ public class Util {
         return users;
     }
 
+    /**
+     * sets things in title case where the first letter of each word is a capital and the rest isn't
+     * @param str is the string set to title case
+     * @return the str in title case
+     */
     public static String toTitleCase(String str) {
         if (str == null || str.trim().isEmpty()) {
             return str;

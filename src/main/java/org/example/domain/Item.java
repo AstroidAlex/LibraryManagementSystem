@@ -22,9 +22,16 @@ public abstract class Item {
         this.creator = creator;
     }
 
+    /**
+     * Sets the state of the item returned to Available.
+     */
     public void returnItem() {
         status = ItemStatus.AVAILABLE;
     } //exceptions in library
+
+    /**
+     * allows to set the status of the item as lost
+     */
     public void markLost() {
         status = ItemStatus.LOST;
     } //exceptions in library
@@ -36,6 +43,9 @@ public abstract class Item {
         return status == ItemStatus.AVAILABLE;
     }
 
+    /**
+     * Allows the user to borrow books
+     */
     public void borrow() {
         if (status != ItemStatus.AVAILABLE) {
             throw new IllegalStateException("Item is not available. Status: " + status);
