@@ -18,10 +18,9 @@ public class Main {
         for (User user : users) {
             library.addUser(user);
         }
-        library.borrowItem("s0002", "B0001");
-        library.borrowItem("s0002", "B0002");
+        System.out.println(library.generateReport());
 
-        library.returnItem("s0002", "b0001");
-        library.returnItem("s0002", "b0002");
+        library.searchByAuthorStream("Bob");
+        library.borrowItem("s0001", "b0003");
     }
 }

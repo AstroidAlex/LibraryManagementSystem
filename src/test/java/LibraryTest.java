@@ -15,7 +15,7 @@ class LibraryTest {
     private Book book;
     private DVD dvd;
 
-    @BeforeEach
+    @BeforeEach //kindly suggested by a reddit thread and works great
     void setUp() {
         library = new Library();
         student = new Student(new ArrayList<>(), "Alice");
